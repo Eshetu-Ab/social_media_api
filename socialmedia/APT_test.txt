@@ -1,0 +1,571 @@
+1. Obtain JWT Token
+Endpoint: POST /api/token/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/token/.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "username": "your_username",
+    "password": "your_password"
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "refresh": "your_refresh_token",
+    "access": "your_access_token"
+}
+
+2. Refresh JWT Token
+Endpoint: POST /api/token/refresh/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/token/refresh/.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "refresh": "your_refresh_token"
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "access": "new_access_token"
+}
+
+3. Get Posts
+Endpoint: GET /api/posts/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/posts/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+JSON
+
+[
+    {
+        "id": 1,
+        "user": "username",
+        "content": "Post content",
+        "created_at": "2024-09-25T08:00:00Z"
+    },
+    ...
+]
+
+4. Create a Post
+Endpoint: POST /api/posts/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/posts/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "content": "New post content"
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 2,
+    "user": "username",
+    "content": "New post content",
+    "created_at": "2024-09-25T08:05:00Z"
+}
+
+5. Get Likes
+Endpoint: GET /api/likes/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/likes/.
+
+Click Send.
+Expected Output:
+
+JSON
+
+[
+    {
+        "id": 1,
+        "user": "username",
+        "post": 1,
+        "created_at": "2024-09-25T08:10:00Z"
+    },
+    ...
+]
+
+6. Create a Like
+Endpoint: POST /api/likes/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/likes/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "post": 1
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 2,
+    "user": "username",
+    "post": 1,
+    "created_at": "2024-09-25T08:15:00Z"
+}
+AI-generated code. Review and use carefully. More info on FAQ.
+7. Get Comments
+Endpoint: GET /api/comments/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/comments/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+JSON
+
+[
+    {
+        "id": 1,
+        "user": "username",
+        "post": 1,
+        "content": "Comment content",
+        "created_at": "2024-09-25T08:20:00Z"
+    },
+    ...
+]
+
+8. Create a Comment
+Endpoint: POST /api/comments/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/comments/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "post": 1,
+    "content": "New comment content"
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 2,
+    "user": "username",
+    "post": 1,
+    "content": "New comment content",
+    "created_at": "2024-09-25T08:25:00Z"
+}
+
+9. Get Notifications
+Endpoint: GET /api/notifications/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/notifications/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+JSON
+
+[
+    {
+        "id": 1,
+        "user": "username",
+        "message": "Notification message",
+        "created_at": "2024-09-25T08:30:00Z"
+    },
+    ...
+]
+
+10. Get Messages/Retrieve Private Messages (For the Authenticated User)
+Endpoint: GET /api/direct_messages/messages/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/direct_messages/messages/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "count": 2,  // Total number of messages in the system for this query (2 messages in this case).
+    "next": null,  // URL to the next page of results. It's null because there are no more pages.
+    "previous": null,  // URL to the previous page of results. It's null because we're on the first page.
+    "results": [  // The actual messages are contained in this array.
+        {
+            "id": 1,  // Unique ID of the first message.
+            "sender": 1,  // ID of the user who sent the message.
+            "receiver": 2,  // ID of the user who received the message.
+            "content": "hi admin",  // Content of the message.
+            "timestamp": "2024-10-01T05:21:05.045099Z",  // When the message was sent (in UTC format).
+            "is_read": false  // Boolean indicating whether the message has been read by the receiver.
+        },
+        {
+            "id": 2,  // Unique ID of the second message.
+            "sender": 1,  // ID of the user who sent this second message.
+            "receiver": 2,  // ID of the user who received this second message.
+            "content": "Hello, this is a test message!",  // Content of the second message.
+            "timestamp": "2024-10-01T05:24:52.499661Z",  // When the second message was sent.
+            "is_read": false  // Boolean indicating whether this message has been read by the receiver.
+        }
+    ]
+}
+
+
+
+11. Send a Message
+Endpoint: POST  /api/messaging/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/direct_messages/messages/
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+  "receiver": 2,  
+  "content": "Hello, this is a test message!"
+}
+
+
+
+
+Click Send.
+Expected Output:
+
+JSON
+{
+  "id": 1,
+  "sender": 1,  # Current authenticated user ID
+  "receiver": 2,
+  "content": "Hello, this is a test message!",
+  "timestamp": "2024-10-01T12:30:00Z",
+  "is_read": false
+}
+
+
+12. Get Follows
+Endpoint: GET /api/follows/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/follows/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+
+
+if no follower:
+
+JSON
+{
+    "count": 0,
+    "next": null,
+    "previous": null,
+    "results": []
+}
+
+
+if there is follower:
+
+JSON
+
+[
+    {
+        "id": 1,
+        "follower": "username",
+        "following": "another_username",
+        "created_at": "2024-09-25T08:45:00Z"
+    },
+    ...
+]
+
+13. Follow a User
+Endpoint: POST /api/follows/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/follows/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "following": 2 # Replace 2 with the actual ID of the user you're trying to follow
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 1,
+    "follower": 1,
+    "following": 2,
+    "created_at": "2024-10-02T05:40:27.980120Z"
+}
+
+14. Get Hashtags
+Endpoint: GET /api/hashtags/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/hashtags/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+JSON
+if no hastags:
+{
+    "count": 0,
+    "next": null,
+    "previous": null,
+    "results": []
+}
+
+
+if there is hastags:
+
+JSON
+[
+    {
+        "id": 1,
+        "name": "#example",
+        "created_at": "2024-09-25T08:55:00Z"
+    },
+    ...
+]
+
+15. Create a Hashtag
+Endpoint: POST /api/hashtags/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/hashtags/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "name": "#newhashtag"
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 1,  // Unique identifier for the newly created hashtag
+    "name": "#newhashtag",  // The name of the hashtag created
+    "posts": []  // Array to hold posts associated with this hashtag (currently empty)
+}
+
+
+16. Get Reposts
+Endpoint: GET /api/reposts/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/reposts/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+
+if no repost:
+
+{
+    "count": 0,
+    "next": null,
+    "previous": null,
+    "results": []
+}
+
+if there is reposts:
+JSON
+
+[
+    {
+        "id": 1,
+        "user": "username",
+        "post": 1,
+        "created_at": "2024-09-25T09:05:00Z"
+    },
+    ...
+]
+
+17. Create a Repost
+Endpoint: POST /api/reposts/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: http://127.0.0.1:8000/api/reposts/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "post": 1
+}
+
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 2,
+    "user": "username",
+    "post": 1,
+    "created_at": "2024-09-25T09:10:00Z"
+}
+
+18. Get Feed Items
+Endpoint: GET /api/feed/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to GET.
+Enter the URL: http://127.0.0.1:8000/api/feed/.
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "content": "POST1",
+            "timestamp": "2024-10-02T06:39:57.823560Z",
+            "media": null,
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "user": 2
+        }
+    ]
+}
+19. Create a Feed Item
+Endpoint: POST /api/feed/
+
+Steps:
+
+Create a new request in Postman.
+Set the request type to POST.
+Enter the URL: POST http://127.0.0.1:8000/api/feed/create/
+Go to the Authorization tab, select Bearer Token, and paste your access token.
+Go to the Body tab, select raw, and set the format to JSON.
+Enter the following JSON data:
+JSON
+
+{
+    "content": "New feed item content"
+}
+AI-generated code. Review and use carefully. More info on FAQ.
+Click Send.
+Expected Output:
+
+JSON
+
+{
+    "id": 2,
+    "content": "New feed item content",
+    "timestamp": "2024-10-02T07:17:17.107396Z",
+    "media": null,
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "user": 1
+}

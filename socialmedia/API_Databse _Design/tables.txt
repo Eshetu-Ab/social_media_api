@@ -1,0 +1,92 @@
+Table CustomUser {
+  id int [pk, increment]
+  username varchar
+  password varchar
+  email varchar
+}
+
+Table UserProfile {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  bio text
+  avatar varchar
+  location varchar
+  website varchar
+  cover_photo varchar
+}
+
+Table Post {
+  id int [pk, increment]
+  content text
+  user_id int [ref: > CustomUser.id]
+  timestamp datetime
+  media varchar
+  likes_count int
+  comments_count int
+  reposts_count int
+}
+
+Table PostLike {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  post_id int [ref: > Post.id]
+  timestamp datetime
+}
+
+Table Repost {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  original_post_id int [ref: > Post.id]
+  timestamp datetime
+}
+
+Table Notification {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  content text
+  created_at datetime
+  is_read boolean
+}
+
+Table Like {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  post_id int [ref: > Post.id]
+  timestamp datetime
+}
+
+Table Hashtag {
+  id int [pk, increment]
+  name varchar [unique]
+}
+
+Table Follow {
+  id int [pk, increment]
+  follower_id int [ref: > CustomUser.id]
+  following_id int [ref: > CustomUser.id]
+  created_at datetime
+}
+
+Table FeedItem {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  content text
+  created_at datetime
+}
+
+Table Message {
+  id int [pk, increment]
+  sender_id int [ref: > CustomUser.id]
+  receiver_id int [ref: > CustomUser.id]
+  content text
+  timestamp datetime
+  is_read boolean
+}
+
+Table Comment {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  post_id int [ref: > Post.id]
+  content text
+  timestamp datetime
+}
