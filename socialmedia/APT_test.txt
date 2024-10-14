@@ -1,28 +1,19 @@
 1. Obtain JWT Token
 Endpoint: POST /api/token/
-
-Steps:
-
-Create a new request in Postman.
-Set the request type to POST.
-Enter the URL: http://127.0.0.1:8000/api/token/.
-Go to the Body tab, select raw, and set the format to JSON.
-Enter the following JSON data:
-JSON
+URL: http://127.0.0.1:8000/api/token/
 
 {
     "username": "your_username",
     "password": "your_password"
 }
 
-Click Send.
 Expected Output:
 
 JSON
 
 {
-    "refresh": "your_refresh_token",
-    "access": "your_access_token"
+    "refresh": "refresh_token",
+    "access": "access_token"
 }
 
 2. Refresh JWT Token
@@ -277,7 +268,7 @@ JSON
 
 
 11. Send a Message
-Endpoint: POST  /api/messaging/
+Endpoint: POST  /api/direct_messages/
 
 Steps:
 
@@ -553,7 +544,7 @@ JSON
 {
     "content": "New feed item content"
 }
-AI-generated code. Review and use carefully. More info on FAQ.
+
 Click Send.
 Expected Output:
 

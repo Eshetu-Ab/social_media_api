@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# social_media_api/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -27,18 +28,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Include app URLs
-    path('api/users/', include('users.urls')),          # User management
+    path('api/users/', include('users.urls')),          # User management and signup/login
     path('api/posts/', include('posts.urls')),          # Posts-related endpoints
     path('api/likes/', include('likes.urls')),          # Like system
     path('api/comments/', include('comments.urls')),    # Commenting system
     path('api/notifications/', include('notifications.urls')),  # Notifications
-     path('api/direct_messages/', include('direct_messages.urls')),  # Messaging (private messages)
-    path('api/follows/', include('follows.urls')),      # Follows/followers system
+    path('api/direct_messages/', include('direct_messages.urls')),  # Messaging
+    path('api/follows/', include('follows.urls')),      # Follows system
     path('api/hashtags/', include('hashtags.urls')),    # Hashtag system
     path('api/reposts/', include('reposts.urls')),      # Reposts
     path('api/feed/', include('feed.urls')),            # Social feed
 ]
-
 
 
 

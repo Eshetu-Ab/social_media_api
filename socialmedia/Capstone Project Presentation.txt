@@ -1,0 +1,729 @@
+Social Media API Development & Deployment
+
+0. Choosing Project idea
+  -why I choose?
+        -Hand on exprience & Complex Problem-Solving skill: : working on social media api presents unique challenges
+        (real time update,content moderation,authotication & authorization)-deepen my thechnical skill & expertize
+        (e.g., real-time updates, scalability, content moderation) that can deepen my technical skills and expertise.
+        -Monetization Potential: Successful social media applications can lead to various monetization opportunities,
+         such as advertising, subscriptions, and partnerships, making them financially rewarding projects.
+
+Planning----->Development----->Testing----->Deployment
+1. Planning---->API_Database_Design------->dbdiagram.io(write_script--->diagram production)
+                                        --Each box represents a database table (also called an entity)
+                                        --For instance, CustomUser, Post, Comment, Follow, etc.,
+                                          are the tables representing users, posts, and other concepts in the Django project.
+                                        --Lines between the entities represent relationships between tables.
+                                        --The arrows indicate the direction of the relationship:
+                                        --One-to-One (1:1): A line with a single '1' near each box indicates a one-to-one relationship.
+                                        --one-to-many(1:∞):A '1' near one entity and '∞' near the other indicates a one-to-many relationship. 
+                                                            This means, for example, that one user can have many posts.
+                                        --many-to-many(∞:∞):  If both sides have an '∞', this shows a many-to-many relationship. 
+                                                            For example, multiple posts can be associated with multiple hashtags, and vice versa. 
+                                        Keys:
+                                        --Primary Keys (PK): These are unique identifiers for each table. For example, id in CustomUser is the primary key.
+                                        -- Foreign Keys (FK): These establish the relationship between two tables. 
+                                           For example, user_id in the Post table references the primary key in CustomUser.    
+                                        Relationships:
+                                        --User to Post: A user can have many posts, meaning it’s a one-to-many relationship. 
+                                          The foreign key user_id in the Post table links back to the CustomUser table. 
+                                        --Post to Comment: A post can have many comments,
+                                          but a comment belongs to only one post. This is another one-to-many relationship. 
+                                        -- User to Follow: Users can follow each other. This is a many-to-many relationship,
+                                           which is usually represented by an intermediary table, such as Follow.      
+                                        --  Hashtags and Posts: Posts can have many hashtags, and hashtags can belong to many posts, 
+                                            forming a many-to-many relationship through an intermediate table like PostHashtag.                    
+                                           ---show db.sqlite3
+2. Development processing:
+   -create a repo on Github
+   -Clone the repo to local machine
+   -Virtual envarionment
+   -install django and all other required dependencies
+   -create django project(sociammedia)
+   *start apps(user,posts,comments,feeds,direct-messaging,likes,follows,hastags,reposts,notifications.)  
+       -models.py
+       -Serializres.py
+       -Views.py
+       -urls.py
+       -admin.py
+       settings.py
+        -impemented jwt for authotication
+    *app URLs
+        -path('api/users/', include('users.urls')),          # User management and signup/login/logout
+        -path('api/posts/', include('posts.urls')),          # Posts-related endpoints
+        -path('api/likes/', include('likes.urls')),          # Like system
+        -path('api/comments/', include('comments.urls')),    # Commenting system
+        -path('api/notifications/', include('notifications.urls')),  # Notifications
+        -path('api/direct_messages/', include('direct_messages.urls')),  # Messaging
+        -path('api/follows/', include('follows.urls')),      # Follows system
+        -path('api/hashtags/', include('hashtags.urls')),    # Hashtag system
+        -path('api/reposts/', include('reposts.urls')),      # Reposts
+        -path('api/feed/', include('feed.urls')),            # Social feed
+3. Testing(using Postman)
+   api endpoints:
+   
+         1. Obtain JWT Token
+        Endpoint: POST /api/token/
+        URL: http://127.0.0.1:8000/api/token/
+
+        {
+            "username": "your_username",
+            "password": "your_password"
+        }
+
+        Expected Output:
+
+        JSON
+
+        {
+            "refresh": "refresh_token",
+            "access": "access_token"
+        }
+
+        2. Refresh JWT Token
+        Endpoint: POST /api/token/refresh/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/token/refresh/.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "refresh": "your_refresh_token"
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "access": "new_access_token"
+        }
+
+        3. Get Posts
+        Endpoint: GET /api/posts/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/posts/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        [
+            {
+                "id": 1,
+                "user": "username",
+                "content": "Post content",
+                "created_at": "2024-09-25T08:00:00Z"
+            },
+            ...
+        ]
+
+        4. Create a Post
+        Endpoint: POST /api/posts/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/posts/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "content": "New post content"
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 2,
+            "user": "username",
+            "content": "New post content",
+            "created_at": "2024-09-25T08:05:00Z"
+        }
+
+        5. Get Likes
+        Endpoint: GET /api/likes/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/likes/.
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        [
+            {
+                "id": 1,
+                "user": "username",
+                "post": 1,
+                "created_at": "2024-09-25T08:10:00Z"
+            },
+            ...
+        ]
+
+        6. Create a Like
+        Endpoint: POST /api/likes/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/likes/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "post": 1
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 2,
+            "user": "username",
+            "post": 1,
+            "created_at": "2024-09-25T08:15:00Z"
+        }
+        AI-generated code. Review and use carefully. More info on FAQ.
+        7. Get Comments
+        Endpoint: GET /api/comments/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/comments/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        [
+            {
+                "id": 1,
+                "user": "username",
+                "post": 1,
+                "content": "Comment content",
+                "created_at": "2024-09-25T08:20:00Z"
+            },
+            ...
+        ]
+
+        8. Create a Comment
+        Endpoint: POST /api/comments/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/comments/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "post": 1,
+            "content": "New comment content"
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 2,
+            "user": "username",
+            "post": 1,
+            "content": "New comment content",
+            "created_at": "2024-09-25T08:25:00Z"
+        }
+
+        9. Get Notifications
+        Endpoint: GET /api/notifications/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/notifications/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        [
+            {
+                "id": 1,
+                "user": "username",
+                "message": "Notification message",
+                "created_at": "2024-09-25T08:30:00Z"
+            },
+            ...
+        ]
+
+        10. Get Messages/Retrieve Private Messages (For the Authenticated User)
+        Endpoint: GET /api/direct_messages/messages/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/direct_messages/messages/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "count": 2,  // Total number of messages in the system for this query (2 messages in this case).
+            "next": null,  // URL to the next page of results. It's null because there are no more pages.
+            "previous": null,  // URL to the previous page of results. It's null because we're on the first page.
+            "results": [  // The actual messages are contained in this array.
+                {
+                    "id": 1,  // Unique ID of the first message.
+                    "sender": 1,  // ID of the user who sent the message.
+                    "receiver": 2,  // ID of the user who received the message.
+                    "content": "hi admin",  // Content of the message.
+                    "timestamp": "2024-10-01T05:21:05.045099Z",  // When the message was sent (in UTC format).
+                    "is_read": false  // Boolean indicating whether the message has been read by the receiver.
+                },
+                {
+                    "id": 2,  // Unique ID of the second message.
+                    "sender": 1,  // ID of the user who sent this second message.
+                    "receiver": 2,  // ID of the user who received this second message.
+                    "content": "Hello, this is a test message!",  // Content of the second message.
+                    "timestamp": "2024-10-01T05:24:52.499661Z",  // When the second message was sent.
+                    "is_read": false  // Boolean indicating whether this message has been read by the receiver.
+                }
+            ]
+        }
+
+
+
+        11. Send a Message
+        Endpoint: POST  /api/direct_messages/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/direct_messages/messages/
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+        "receiver": 2,  
+        "content": "Hello, this is a test message!"
+        }
+
+
+
+
+        Click Send.
+        Expected Output:
+
+        JSON
+        {
+        "id": 1,
+        "sender": 1,  # Current authenticated user ID
+        "receiver": 2,
+        "content": "Hello, this is a test message!",
+        "timestamp": "2024-10-01T12:30:00Z",
+        "is_read": false
+        }
+
+
+        12. Get Follows
+        Endpoint: GET /api/follows/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/follows/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+
+
+        if no follower:
+
+        JSON
+        {
+            "count": 0,
+            "next": null,
+            "previous": null,
+            "results": []
+        }
+
+
+        if there is follower:
+
+        JSON
+
+        [
+            {
+                "id": 1,
+                "follower": "username",
+                "following": "another_username",
+                "created_at": "2024-09-25T08:45:00Z"
+            },
+            ...
+        ]
+
+        13. Follow a User
+        Endpoint: POST /api/follows/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/follows/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "following": 2 # Replace 2 with the actual ID of the user you're trying to follow
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 1,
+            "follower": 1,
+            "following": 2,
+            "created_at": "2024-10-02T05:40:27.980120Z"
+        }
+
+        14. Get Hashtags
+        Endpoint: GET /api/hashtags/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/hashtags/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+        JSON
+        if no hastags:
+        {
+            "count": 0,
+            "next": null,
+            "previous": null,
+            "results": []
+        }
+
+
+        if there is hastags:
+
+        JSON
+        [
+            {
+                "id": 1,
+                "name": "#example",
+                "created_at": "2024-09-25T08:55:00Z"
+            },
+            ...
+        ]
+
+        15. Create a Hashtag
+        Endpoint: POST /api/hashtags/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/hashtags/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "name": "#newhashtag"
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 1,  // Unique identifier for the newly created hashtag
+            "name": "#newhashtag",  // The name of the hashtag created
+            "posts": []  // Array to hold posts associated with this hashtag (currently empty)
+        }
+
+
+        16. Get Reposts
+        Endpoint: GET /api/reposts/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/reposts/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+
+        if no repost:
+
+        {
+            "count": 0,
+            "next": null,
+            "previous": null,
+            "results": []
+        }
+
+        if there is reposts:
+        JSON
+
+        [
+            {
+                "id": 1,
+                "user": "username",
+                "post": 1,
+                "created_at": "2024-09-25T09:05:00Z"
+            },
+            ...
+        ]
+
+        17. Create a Repost
+        Endpoint: POST /api/reposts/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: http://127.0.0.1:8000/api/reposts/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "post": 1
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 2,
+            "user": "username",
+            "post": 1,
+            "created_at": "2024-09-25T09:10:00Z"
+        }
+
+        18. Get Feed Items
+        Endpoint: GET /api/feed/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to GET.
+        Enter the URL: http://127.0.0.1:8000/api/feed/.
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "count": 1,
+            "next": null,
+            "previous": null,
+            "results": [
+                {
+                    "id": 1,
+                    "content": "POST1",
+                    "timestamp": "2024-10-02T06:39:57.823560Z",
+                    "media": null,
+                    "likes_count": 0,
+                    "comments_count": 0,
+                    "reposts_count": 0,
+                    "user": 2
+                }
+            ]
+        }
+        19. Create a Feed Item
+        Endpoint: POST /api/feed/
+
+        Steps:
+
+        Create a new request in Postman.
+        Set the request type to POST.
+        Enter the URL: POST http://127.0.0.1:8000/api/feed/create/
+        Go to the Authorization tab, select Bearer Token, and paste your access token.
+        Go to the Body tab, select raw, and set the format to JSON.
+        Enter the following JSON data:
+        JSON
+
+        {
+            "content": "New feed item content"
+        }
+
+        Click Send.
+        Expected Output:
+
+        JSON
+
+        {
+            "id": 2,
+            "content": "New feed item content",
+            "timestamp": "2024-10-02T07:17:17.107396Z",
+            "media": null,
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "user": 1
+        }
+
+
+
+   
+    -Documentation(Readme.md)
+    -requirements
+    -pushed to Github
+4. Deployment
+ -sign in to (https://help.pythonanywhere.com/)
+ -Uploaded codes to PythonAnywhere
+    -just cloned it from a Bash Console:
+    -(git clone git@github.com:Eshetu-Ab/social_media_api.git)
+ -Set up a virtualenv and install Django and any other requirements
+            --mkvirtualenv --python=/usr/bin/python3.10 api-env
+            --(mysite-virtualenv)$ pip install django
+            --pip install -r requirements.txt
+ -Setting up your Web app and WSGI file:
+            --Head over to the Web tab
+            --Enter your virtualenv name
+            --Edit your WSGI file
+            --go and hit the Reload button for the domain.
+ -Database setup:
+            --no needed used defualt
+ -Checking it worked:
+            --Go visit your site, it should be live!
+            --https://eabebe.pythonanywhere.com/
+
+Challenges Faced
+        Testing and Debugging: Ensuring all endpoints function as expected.
+        Deployment Issues: Configuring settings and handling dependencies in the production environment.
+        Security: Managing user authentication and protecting sensitive data.
+Future Improvements
+        Database Optimization: Consider using a more robust database like PostgreSQL for scalability.
+        Additional Features: Implement user profile customization, advanced search filters, and notifications.
+        Performance Monitoring: Use tools to monitor API performance and user engagement.
+
+
+
+Models:
+    Definition: Models are Python classes that define the structure of the database tables.
+    Key Tasks:
+    -Define fields and data types (e.g., CharField, IntegerField) that correspond to columns in the database.
+    -Establish relationships between different models (e.g., one-to-many, many-to-many).
+    -Handle data validation and constraints.
+    -Provide methods for querying and manipulating data in the database.
+Serializers:
+    Definition: Serializers in DRF are used to convert complex data types, like model instances, into native Python data types (dictionaries) that can be easily rendered into JSON, XML, or other content types.
+    Key Tasks:
+    -Validate incoming data to ensure it meets the model's requirements.
+    -Serialize model instances into JSON for APIs.
+    -Deserialize JSON data back into model instances for saving to the database.
+Views:
+    Definition: Views are functions or classes that handle the logic for processing user requests and returning responses.
+    Key Tasks:
+    -Retrieve data from the database using models.
+    -Process incoming data and interact with serializers for validation and saving.
+    -Return appropriate HTTP responses, usually as JSON for APIs
+URLs:
+    Definition: URLs are the mappings between URL patterns and the views that handle them. They determine how requests are routed within the application.
+    Key Tasks:
+    -Define URL patterns that map to specific views or viewsets.
+    -Handle incoming requests based on the URL structure.
+Admin
+    Definition: The Django admin interface is a built-in web application that allows you to manage your models through a web-based interface.
+    Key Tasks:
+    -Automatically generates a user-friendly interface for CRUD (Create, Read, Update, Delete) operations on models.
+    -Allows customization of the admin interface for displaying models, filtering, and searching.
+    -Provides a quick way to manage application data without needing to write additional code.
+Summary
+    -Models: Define the data structure and relationships in the database.
+    -Serializers: Handle data transformation between complex types and JSON.
+    -Views: Process requests, interact with models and serializers, and return responses.
+    -URLs: Map URL patterns to views for handling requests.
+    -Admin: Provide a built-in interface for managing models and data in a user-friendly way.
+Advanage of Using multiple apps within a single Django project, 
+especially for a complex application like a social media API, offers several advantages:
+    Modularity:
+             Separation of Concerns: Each app can focus on a specific functionality 
+             (e.g., user management, messaging, posts). This makes the codebase cleaner and easier to navigate.
+             Independent Development: Teams can work on different apps simultaneously without interfering 
+             with one another, promoting parallel development. 
+    Reusability:
+             Shared Functionality: Apps can be reused in other projects. For instance, the likes app can be 
+             reused in another social media project or even in different types of applications.
+             Custom Apps: You can create custom apps for specific features that can easily be plugged
+             into other projects  
+    Easier Maintenance:
+             Focused Updates: Bugs or issues can be isolated to specific apps, making it easier to maintain
+             and update the application without affecting unrelated functionality.
+             Clearer Structure: A well-structured project with distinct apps allows for better organization,
+             making it simpler to identify where certain functionalities reside.
+    Scalability:
+             Independent Scaling: Different apps can be scaled independently based on usage. 
+             For example, if the posts app experiences high traffic, it can be optimized or scaled without
+             affecting the direct messaging app.
+             Flexible Deployment: Certain apps can be deployed as microservices, allowing for better resource 
+             management and responsiveness to user demand.
+    Collaboration
+             Team Collaboration: Multiple developers or teams can work on different apps simultaneously, reducing
+             bottlenecks and improving overall productivity.
+             Clear API Contracts: Each app can expose its own API endpoints, making it easier for teams
+             to collaborate and integrate with one another.      
+    etc...        

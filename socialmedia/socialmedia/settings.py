@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
-import logging
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,26 +57,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'level': 'DEBUG',
-#         },
-#         'messaging': { 
-#             'handlers': ['console'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#     },
-# }
+
 
 
 REST_FRAMEWORK = {

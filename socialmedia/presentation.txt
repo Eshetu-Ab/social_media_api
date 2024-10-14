@@ -1,0 +1,52 @@
+Social Media API Development and Deployment
+  
+    Project Overview
+
+        Objective: Build a RESTful API for a social media Platform  using 
+                   Django and Django REST Framework.
+    Key Features:
+        User Management
+        Posts, Comments, Likes, Reposts
+        Hashtags, Notifications, Follows
+        Direct Messaging
+    Technology Stack
+        Backend Framework: Django (5.1.1)
+        REST Framework: Django REST Framework (3.15.2)
+        Database: SQLite (default), with options for PostgreSQL/MySQL
+        Authentication: JWT using djangorestframework-simplejwt
+        Image Processing: Pillow
+        Filtering and Pagination: Django-filter
+    Development Process
+        -Setting Up the Environment
+        -Clone the repository
+        -Set up a virtual environment
+        -Install dependencies using requirements.txt
+        -Building the API
+        -Define models for Users, Posts, Comments, Likes, etc.
+        -Create serializers for data validation and transformation.
+        -Implement viewsets and routes for CRUD operations.
+    Testing the API
+        -Use Postman or cURL to:
+        -Test authentication (register, login)
+        -Perform CRUD operations on posts and comments
+        -Verify the functionality of likes, follows, and messaging.
+    Deployment Process
+        Platform: PythonAnywhere
+        Configure the WSGI file: Set the path to  project and specify the settings module.
+        Database Setup: Migrate the database to the production environment.
+        Static Files: Collect static files for serving.
+        Environment Variables: Set secret keys and other sensitive information.
+        Run the Application: Start the server and ensure it's accessible via the web.
+    Challenges Faced
+        Testing and Debugging: Ensuring all endpoints function as expected.
+        Deployment Issues: Configuring settings and handling dependencies in the production environment.
+        Security: Managing user authentication and protecting sensitive data.
+    Future Improvements
+        Database Optimization: Consider using a more robust database like PostgreSQL for scalability.
+        Additional Features: Implement user profile customization, advanced search filters, and notifications.
+        Performance Monitoring: Use tools to monitor API performance and user engagement.
+    Conclusion
+        Summary: Successfully built and deployed a Social Media API with comprehensive features.
+        Next Steps: Explore new features, optimize performance, and gather user feedback.
+        Slide 10: Questions and Feedback
+    Q & A
