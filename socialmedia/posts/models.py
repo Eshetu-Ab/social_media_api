@@ -20,7 +20,7 @@ class Post(models.Model):
         self.likes_count = self.likes.count()
         self.save()
 
-class PostLike(models.Model):  # Changed name to PostLike
+class PostLike(models.Model):  
     user = models.ForeignKey(User, related_name='post_likes', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, related_name='post_likes', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)

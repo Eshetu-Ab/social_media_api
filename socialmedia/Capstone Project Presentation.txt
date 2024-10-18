@@ -33,7 +33,7 @@ Planning----->Development----->Testing----->Deployment
                                            which is usually represented by an intermediary table, such as Follow.      
                                         --  Hashtags and Posts: Posts can have many hashtags, and hashtags can belong to many posts, 
                                             forming a many-to-many relationship through an intermediate table like PostHashtag.                    
-                                           ---show db.sqlite3
+                                           
 2. Development processing:
    -create a repo on Github
    -Clone the repo to local machine
@@ -59,6 +59,8 @@ Planning----->Development----->Testing----->Deployment
         -path('api/hashtags/', include('hashtags.urls')),    # Hashtag system
         -path('api/reposts/', include('reposts.urls')),      # Reposts
         -path('api/feed/', include('feed.urls')),            # Social feed
+
+        ---show db.sqlite3
 3. Testing(using Postman)
    api endpoints:
    

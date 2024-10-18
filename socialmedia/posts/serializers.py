@@ -37,9 +37,7 @@ class LikeSerializer(serializers.ModelSerializer):
         read_only_fields = ['user']  # User is read-only since it is automatically assigned
 
     def create(self, validated_data):
-        """
-        Override the create method to associate the like with the authenticated user.
-        """
+       
         user = self.context['request'].user  # Get the authenticated user from the request context
         like = Like.objects.create(user=user, **validated_data)  # Create a new like instance
         return like  # Return the created like instance

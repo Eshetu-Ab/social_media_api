@@ -2,13 +2,13 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from .models import Post
 from .serializers import PostSerializer
-from likes.models import Like  # Adjusted import
-from likes.serializers import LikeSerializer  # Adjusted import
+from likes.models import Like 
+from likes.serializers import LikeSerializer 
 
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('-timestamp')
-    serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+class PostViewSet(viewsets.ModelViewSet):        # Defining a ViewSet for handling Post objects
+    queryset = Post.objects.all().order_by('-timestamp') # The queryset to retrieve all Post objects, ordered by timestamp in descending order
+    serializer_class = PostSerializer       # Specifying the serializer class to convert Post instances to JSON and vice versa
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] # Setting permission classes to allow authenticated users to edit, while unauthenticated users can only read
 
     def perform_create(self, serializer):
         # Automatically set the authenticated user as the post's author
